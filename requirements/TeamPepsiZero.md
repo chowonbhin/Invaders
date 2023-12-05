@@ -13,9 +13,9 @@
 | Student ID  | Name          | Detail Requirements                                                                       |
 |-------------|---------------|-------------------------------------------------------------------------------------------|
 | 2020033936  | Sunmin Kim    | Team Leader                                                                               |
-| 2020031903  | Jinwon Choi   | The number of enemy's bullets according to level & difficulty, Expand Shooter's dimension |
+| 2020031903  | Jinwon Choi   | The number of enemy's bullets according to level & difficulty, Expend Shooter's dimension |
 | 2020076108  | Heesoo Lee    | Boss stage, Enemy Life                                                                    |
-| 2020037329  | Choonghun Kim | Difficulty, Stage Select, Laser, Pause and Quit, HighScore Discrimination by difficulty   |
+| 2020037329  | Choonghun Kim | Difficulty, Laser, pause                                                                  |
 | 2020056780  | Banseok Kim   | Diversify Monster Patterns, Combo System                                                  |
 
 

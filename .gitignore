@@ -165,8 +165,8 @@ pip-log.txt
 #############
 ## Custom
 #############
-
 log*
+!LoginManager.java
 *.ttf
 .checkstyle
 # intelliJ Files

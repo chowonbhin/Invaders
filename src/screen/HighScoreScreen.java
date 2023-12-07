@@ -8,6 +8,16 @@ import engine.Cooldown;
 import engine.Core;
 import engine.Score;
 
+import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+import java.util.Scanner;
+
 /**
  * Implements the high scores screen, it shows player records.
  * 
@@ -23,6 +33,16 @@ public class HighScoreScreen extends Screen {
 	private List<Score> highScores_HARDCORE;
 	private int difficulty;
 	private Cooldown SelectCooldown;
+
+	private final String url = "jdbc:postgresql://localhost/invader";
+	private final String user = "user";
+	private final String password = "password";
+
+	private ArrayList<String> ranking_easy = new ArrayList<>();
+	private ArrayList<String> ranking_normal = new ArrayList<>();
+	private ArrayList<String> ranking_hard = new ArrayList<>();
+	private ArrayList<String> ranking_hardcore = new ArrayList<>();
+
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -35,18 +55,46 @@ public class HighScoreScreen extends Screen {
 	 */
 	public HighScoreScreen(final int width, final int height, final int fps) {
 		super(width, height, 60);
+
+		try (Connection connection = DriverManager.getConnection(url, user, password)) {
+			for(int difficulty = 0; difficulty < 4; difficulty++) {
+				// 호출할 함수와 매개변수를 포함한 쿼리
+				String query = "SELECT * FROM ranking(?)";
+
+				try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+					preparedStatement.setInt(1, difficulty);
+
+					try (ResultSet resultSet = preparedStatement.executeQuery()) {
+						List<String> stringList = new ArrayList<>();
+						while (resultSet.next()) {
+							int rank = resultSet.getInt("ranking");
+							String id = resultSet.getString("id");
+							String clientName = resultSet.getString("client_name");
+							int score = resultSet.getInt("score");
+							String resultString = "Rank: " + rank + ", ID: " + id + ", Name: " + clientName + ", Score: " + score;
+							System.out.println("Rank: " + rank + ", ID: " + id + ", Name: " + clientName + ", Score: " + score);
+							stringList.add(resultString);
+						}
+						if (difficulty == 0){
+							ranking_easy.addAll(stringList);
+						} else if (difficulty == 1) {
+							ranking_normal.addAll(stringList);
+						} else if (difficulty == 2) {
+							ranking_hard.addAll(stringList);
+						} else if (difficulty == 3) {
+							ranking_hardcore.addAll(stringList);
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		this.SelectCooldown = Core.getCooldown(200);
 		this.SelectCooldown.reset();
 		this.returnCode = 1;
 		this.difficulty = 0;
-		try {
-			this.highScores_EASY = Core.getFileManager().loadHighScores(0);
-			this.highScores_NORMAL = Core.getFileManager().loadHighScores(1);
-			this.highScores_HARD = Core.getFileManager().loadHighScores(2);
-			this.highScores_HARDCORE = Core.getFileManager().loadHighScores(3);
-		} catch (NumberFormatException | IOException e) {
-			logger.warning("Couldn't load high scores!");
-		}
 	}
 
 	/**
@@ -93,13 +141,13 @@ public class HighScoreScreen extends Screen {
 		drawManager.drawHighScoreMenu(this);
 		drawManager.drawDiffScore(this, this.difficulty);
 		if (this.difficulty == 0)
-			drawManager.drawHighScores(this, this.highScores_EASY);
+			drawManager.drawRanking(this, this.ranking_easy);
 		else if (this.difficulty == 1)
-			drawManager.drawHighScores(this, this.highScores_NORMAL);
+			drawManager.drawRanking(this, this.ranking_normal);
 		else if (this.difficulty == 2)
-			drawManager.drawHighScores(this, this.highScores_HARD);
+			drawManager.drawRanking(this, this.ranking_hard);
 		else
-			drawManager.drawHighScores(this, this.highScores_HARDCORE);
+			drawManager.drawRanking(this, this.ranking_hardcore);
 
 		drawManager.completeDrawing(this);
 	}

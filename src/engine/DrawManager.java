@@ -35,6 +35,7 @@ import entity.Entity;
 import screen.GameScreen;
 import screen.GameScreen_2P;
 import screen.Screen;
+import java.util.ArrayList;
 
 
 /**
@@ -1684,7 +1685,7 @@ public final class DrawManager {
 	 *               Screen to draw on.
 	 */
 	public void drawHighScoreMenu(final Screen screen) {
-		String highScoreString = "High Scores";
+		String highScoreString = "GLOBAL RANKING";
 		String instructionsString = "Press SPACE to return";
 
 		backBufferGraphics.setColor(blinkingColor("HIGH_SCORES"));
@@ -1720,6 +1721,24 @@ public final class DrawManager {
 				break;
 		}
 	}
+
+
+	public void drawRanking(final Screen screen,
+							final ArrayList<String> highScores) {
+		backBufferGraphics.setColor(blinkingColor("WHITE"));
+		int i = 0;
+		String scoreString = "";
+		String rank[] = {"1st", "2nd", "3th", "4th", "5th"};
+
+		for (String str : highScores) {
+			drawCenteredRegularString(screen, str, screen.getHeight()
+					/ 3 + fontRegularMetrics.getHeight() * (i + 1) * 2);
+			i++;
+			if (i >= 5)
+				break;
+		}
+	}
+
 
 	/**
 	 * Draws a centered string on regular font.

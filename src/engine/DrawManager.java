@@ -1696,6 +1696,18 @@ public final class DrawManager {
 				screen.getHeight() / 5);
 	}
 
+	public void drawTitle(final Screen screen, String Title) {
+		String highScoreString = Title;
+		String instructionsString = "Press SPACE to return";
+
+		backBufferGraphics.setColor(blinkingColor("HIGH_SCORES"));
+		drawCenteredBigString(screen, highScoreString, screen.getHeight() / 8);
+
+		backBufferGraphics.setColor(blinkingColor("GRAY"));
+		drawCenteredRegularString(screen, instructionsString,
+				screen.getHeight() / 5);
+	}
+
 	/**
 	 * Draws high scores.
 	 *

@@ -469,6 +469,15 @@ public final class Core {
                         LOGGER.info("Closing Two Play high score screen.");
                         break;
                     }
+                    else if(scorescreen == 33)
+                    {
+                        currentScreen = new PersonalScoreScreen(width, height, FPS);
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + " Two Play high score screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing Two Play high score screen.");
+                        break;
+                    }
                     else
                         returnCode = frame.setScreen(currentScreen);
                     LOGGER.info("Closing high score menu screen.");

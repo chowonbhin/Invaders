@@ -82,6 +82,8 @@ public class ScoreMenuScreen extends Screen{
         if (this.returnCode == 31)
             this.returnCode = 32;
         else if (this.returnCode == 32)
+            this.returnCode = 33;
+        else if (this.returnCode == 33)
             this.returnCode = 1;
         else if (this.returnCode == 1)
             this.returnCode = 31;
@@ -94,6 +96,8 @@ public class ScoreMenuScreen extends Screen{
         if (this.returnCode == 31)
             this.returnCode = 1;
         else if (this.returnCode == 1)
+            this.returnCode = 33;
+        else if (this.returnCode == 33)
             this.returnCode = 32;
         else if (this.returnCode == 32)
             this.returnCode = 31;

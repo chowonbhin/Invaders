@@ -17,6 +17,7 @@ public class LoginManager {
     private DatabaseConnect dbConnect;
     public LoginManager(){
         //if call Loginmanager, call database's connecting method
+        dbConnect = new DatabaseConnect();
         conn = dbConnect.connect();
     }
 
@@ -54,10 +55,6 @@ public class LoginManager {
     }
 
     public String get_id(){
-
-        if(id == null){
-            return null;
-        }
         return id;
     }
 

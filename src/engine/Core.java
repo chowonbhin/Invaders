@@ -486,6 +486,14 @@ public final class Core {
                     else{
                         LOGGER.info("Already logined");
                     }
+                    currentScreen = new TitleScreen(width, height, FPS);
+
+                    outgame_bgm.OutGame_bgm_play(); //대기화면 비지엠 (수정중)
+
+                    LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                            + " title screen at " + FPS + " fps.");
+                    returnCode = frame.setScreen(currentScreen);
+                    LOGGER.info("Closing title screen.");
 
                     break;
 

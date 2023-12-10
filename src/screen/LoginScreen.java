@@ -1,13 +1,9 @@
 package screen;
-import engine.*;
-import entity.Coin;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.sql.Connection;
-import java.util.List;
 import java.sql.*;
 import engine.LoginManager;
 import engine.DatabaseConnect;

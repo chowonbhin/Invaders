@@ -2,8 +2,6 @@ package engine;
 
 import java.sql.*;
 
-import javax.xml.crypto.Data;
-
 public class RegisterManager {
     private Connection conn;
     private DatabaseConnect DBconnect;

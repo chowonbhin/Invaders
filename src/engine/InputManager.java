@@ -57,6 +57,7 @@ public final class InputManager implements KeyListener {
         return pressedOnce;
     }
 
+
 	/**
 	 * Changes the state of the key to pressed.
 	 * 

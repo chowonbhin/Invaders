@@ -6,9 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ScoreManager {
+    private DatabaseConnect dbconnect;
+    private Connection conn;
+    private String id;
+    public ScoreManager(){
+        dbconnect = new DatabaseConnect();
+        conn = dbconnect.connect();
+
+    }
+
 
     //ScoreScreen에 savescore에 사용하면 데이터 베이스에 들어갈듯.
-    public void scoreUpdate(Connection conn, String id , int score, int difficulty){
+    public void scoreUpdate(int score, int difficulty){
         System.out.println("=======================");
         System.out.println("Score update");
         System.out.println("=======================");

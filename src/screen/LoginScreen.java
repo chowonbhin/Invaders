@@ -3,11 +3,13 @@ package screen;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.*;
 import engine.LoginManager;
 import engine.DatabaseConnect;
 import engine.RegisterManager;
+import security.SHA256;
 
 public class LoginScreen implements ActionListener{
 
@@ -29,7 +31,7 @@ public class LoginScreen implements ActionListener{
     private String id;
     // password
     private String password;
-
+    private String password_sha;
     private boolean frameinfo = true;
 
     public LoginScreen(Connection conn, LoginManager loginManager) {
@@ -78,11 +80,17 @@ public class LoginScreen implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == loginButton){
+            SHA256 sha256 = new SHA256();
             id = idInput.getText();
             password = new String(pwdInput.getPassword());
+            try {
+                password_sha = sha256.encrypt(password);
+            } catch (NoSuchAlgorithmException ex) {
+                throw new RuntimeException(ex);
+            }
             //check about user can login our database
             if(conn != null){
-                if(loginManager.loginCheck(conn, id, password)){
+                if(loginManager.loginCheck(conn, id, password_sha)){
                     System.out.println("login Success");
                     loginManager.updateIsOnline(conn, id, true);
                     frameinfo = false;

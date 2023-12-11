@@ -6,11 +6,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.util.List;
 import java.sql.*;
 import engine.LoginManager;
 import engine.DatabaseConnect;
+import security.SHA256;
 public class RegisterScreen implements ActionListener{
 
     private Connection conn;
@@ -34,6 +36,7 @@ public class RegisterScreen implements ActionListener{
     private String id;
     // password
     private String password;
+    private String password_sha;
     private String name;
     private String country;
 
@@ -93,14 +96,20 @@ public class RegisterScreen implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == registerButton){
+            SHA256 sha256 = new SHA256();
             id = idInput.getText();
             password = new String(pwdInput.getPassword());
             name = nameInput.getText();
             country = countryInput.getText();
+            try {
+                password_sha = sha256.encrypt(password);
+            } catch (NoSuchAlgorithmException ex) {
+                throw new RuntimeException(ex);
+            }
 
             //check about user can sign up our database
             if(conn != null){
-                if(registerManager.join_membership(id, password, name, country)){
+                if(registerManager.join_membership(id, password_sha, name, country)){
                     System.out.println("sign up Success");
                     framinfo = false;
                     frame.setVisible(framinfo);

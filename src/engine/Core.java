@@ -120,6 +120,8 @@ public final class Core {
     private static int BulletsRemaining;
     private static LoginManager login_Manager;
     private static String user = null;
+    private static DatabaseConnect dbconnect;
+    private static Connection conn;
 
 
     /**
@@ -140,9 +142,13 @@ public final class Core {
             consoleHandler = new ConsoleHandler();
             consoleHandler.setFormatter(new MinimalFormatter());
 
+            dbconnect = new DatabaseConnect();
+            conn = dbconnect.connect();
+            login_Manager = new LoginManager(conn);
             LOGGER.addHandler(fileHandler);
             LOGGER.addHandler(consoleHandler);
             LOGGER.setLevel(Level.ALL);
+
 
         } catch (Exception e) {
             // TODO handle exception
@@ -494,12 +500,11 @@ public final class Core {
                  * Connect title screen to login screen
                   */
                 case 40:
-                    login_Manager = new LoginManager();
+
                     //if user already logined, rejected login request
                     //And get username
                     if(login_Manager.get_id() == null){
-                        login_Manager.callLoginScreen();
-                        user = login_Manager.get_name();
+                        login_Manager.callLoginScreen(login_Manager);
                     }
                     else{
                         LOGGER.info("Already logined");
@@ -512,17 +517,29 @@ public final class Core {
                             + " title screen at " + FPS + " fps.");
                     returnCode = frame.setScreen(currentScreen);
                     LOGGER.info("Closing title screen.");
-
+                    user = login_Manager.get_name();
                     break;
 
                 /**
                  * Logout button
                  */
                 case 41:
-                    login_Manager = new LoginManager();
+
                     if("".equals(login_Manager.get_id()) || login_Manager.get_id() == null){
                         LOGGER.info("Already logouted");
                     }
+                    else{
+                        login_Manager.logout();
+                        user = null;
+                    }
+                    currentScreen = new TitleScreen(width, height, FPS);
+
+                    outgame_bgm.OutGame_bgm_play(); //대기화면 비지엠 (수정중)
+
+                    LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                            + " title screen at " + FPS + " fps.");
+                    returnCode = frame.setScreen(currentScreen);
+                    LOGGER.info("Closing title screen.");
 
                     break;
                 default:

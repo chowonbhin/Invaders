@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.*;
 import engine.LoginManager;
 import engine.DatabaseConnect;
+import engine.RegisterManager;
+
 public class LoginScreen implements ActionListener{
 
     private Connection conn;
@@ -28,11 +30,10 @@ public class LoginScreen implements ActionListener{
     // password
     private String password;
 
+    private boolean frameinfo = true;
 
-    private DatabaseConnect databaseConnect;
-
-    public LoginScreen() {
-
+    public LoginScreen(Connection conn, LoginManager loginManager) {
+        this.loginManager = loginManager;
         frame = new JFrame();
         panel = new JPanel();
         idLabel = new JLabel("ID");
@@ -42,7 +43,7 @@ public class LoginScreen implements ActionListener{
         loginButton = new JButton("Sign in");
         registerButton = new JButton("Sign up");
         panel.setLayout(null);
-
+        this.conn = conn;
         // Specify location of Components
         idLabel.setBounds(20, 10, 60, 30);
         pwdLabel.setBounds(20, 50, 60, 30);
@@ -68,7 +69,7 @@ public class LoginScreen implements ActionListener{
         frame.setTitle("Invaders Login");					// name on the top of the frame
         frame.setSize(320, 130);								// size of the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// call System.exit() on closing
-        frame.setVisible(true);									// display the frame on the screen
+        frame.setVisible(frameinfo);									// display the frame on the screen
 
     }
 
@@ -79,16 +80,13 @@ public class LoginScreen implements ActionListener{
         if(e.getSource() == loginButton){
             id = idInput.getText();
             password = new String(pwdInput.getPassword());
-            databaseConnect = new DatabaseConnect();
-            loginManager = new LoginManager();
-            conn = databaseConnect.connect();
-
             //check about user can login our database
             if(conn != null){
                 if(loginManager.loginCheck(conn, id, password)){
                     System.out.println("login Success");
                     loginManager.updateIsOnline(conn, id, true);
-                    frame.setVisible(false);
+                    frameinfo = false;
+                    frame.setVisible(frameinfo);
                 }
                 else{
                     System.out.println("login fail");
@@ -97,7 +95,7 @@ public class LoginScreen implements ActionListener{
         }
         //sign up to our database
         else if(e.getSource() == registerButton){
-            RegisterScreen registerScreen = new RegisterScreen();
+            RegisterScreen registerScreen = new RegisterScreen(conn, new RegisterManager(conn));
         }
 
     }

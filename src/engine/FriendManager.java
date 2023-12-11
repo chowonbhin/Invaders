@@ -1,11 +1,20 @@
 package engine;
 
+import screen.FriendAddScreen;
+import screen.FriendDeleteScreen;
+
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class FriendManager {
+    private String my_id;
+    private Connection conn;
+    public FriendManager(Connection conn){
+        this.conn = conn;
+    }
 
-    public String insertFriend(Connection conn, String my_id , String friend_id) {
+    public String insertFriend( String my_id , String friend_id) {
 
         PreparedStatement pSt;
 
@@ -41,7 +50,7 @@ public class FriendManager {
         return "Please check the database connection status.";
     }
 
-    public String deleteFriend(Connection conn, String my_id , String friend_id) {
+    public String deleteFriend(String my_id , String friend_id) {
 
         PreparedStatement pSt;
 
@@ -87,6 +96,12 @@ public class FriendManager {
             e.printStackTrace();
         }
         return friendData;
+    }
+    public void getaddfriend(String my_id){
+        FriendAddScreen friendManageScreen = new FriendAddScreen(conn, this, my_id);
+    }
+    public void getdeletefriend(String my_id){
+        FriendDeleteScreen friendManageScreen = new FriendDeleteScreen(conn, this, my_id);
     }
 
 }

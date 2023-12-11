@@ -43,6 +43,8 @@ public class PersonalScoreScreen extends Screen {
      */
     public PersonalScoreScreen(final int width, final int height, final int fps, Connection conn, LoginManager loginManager) {
         super(width, height, 60);
+
+        Title = "ID : " + loginManager.get_id() + " Name : " + loginManager.get_name();
         for(int difficulty = 1; difficulty < 5; difficulty++) {
             String sql = "SELECT * FROM ranking(?) WHERE id = ?";
             try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -55,7 +57,6 @@ public class PersonalScoreScreen extends Screen {
                     String id = resultSet.getString("id");
                     String clientName = resultSet.getString("client_name");
                     int score = resultSet.getInt("score");
-                    Title = "ID : " + id + " Name : " + clientName;
                     String resultString = "Ranking : " +ranking + ", Score : " + score;
                     stringList.add(resultString);
                 }

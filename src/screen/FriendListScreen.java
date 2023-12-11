@@ -5,15 +5,11 @@ import java.sql.*;
 import java.util.List;
 
 import engine.*;
-import org.w3c.dom.DOMStringList;
 
 import java.util.ArrayList;
 
 public class FriendListScreen extends Screen {
 
-    /** List of past high scores. */
-
-    private int difficulty;
     private Cooldown SelectCooldown;
 
     // 데이터베이스 계정
@@ -66,7 +62,7 @@ public class FriendListScreen extends Screen {
         //friend_data.addAll(stringList);
         this.SelectCooldown = Core.getCooldown(200);
         this.SelectCooldown.reset();
-        this.returnCode = 1;
+        this.returnCode = 42;
 
     }
 
@@ -87,6 +83,11 @@ public class FriendListScreen extends Screen {
     protected final void update() {
         super.update();
         draw();
+        if(this.SelectCooldown.checkFinished() && this.inputDelay.checkFinished()) {
+            if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
+                this.isRunning = false;
+            }
+        }
     }
 
     /**

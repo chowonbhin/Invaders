@@ -29,7 +29,7 @@ public class ScoreMenuScreen extends Screen{
         super(width, height, fps);
 
         // Defaults to play.
-        this.returnCode = 1;
+        this.returnCode = 31;
         this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
         this.selectionCooldown.reset();
 
@@ -81,7 +81,11 @@ public class ScoreMenuScreen extends Screen{
     private void nextMenuItem() {
         if (this.returnCode == 1)
             this.returnCode = 31;
-        else if (this.returnCode == 31)
+        else if(this.returnCode == 31)
+            this.returnCode = 32;
+        else if(this.returnCode == 32)
+            this.returnCode = 33;
+        else if (this.returnCode == 33)
             this.returnCode = 1;
     }
 
@@ -89,10 +93,14 @@ public class ScoreMenuScreen extends Screen{
      * Shifts the focus to the previous menu item.
      */
     private void previousMenuItem() {
-        if (this.returnCode == 31)
+        if(this.returnCode == 33)
+            this.returnCode = 32;
+        else if(this.returnCode == 32)
+            this.returnCode = 31;
+        else if (this.returnCode == 31)
             this.returnCode = 1;
         else if (this.returnCode == 1)
-            this.returnCode = 31;
+            this.returnCode = 33;
     }
 
     /**

@@ -467,11 +467,11 @@ public final class Core {
                     }
                     else if(scorescreen == 32)
                     {
-                       // currentScreen = new TwoPlayHighScoreScreen(width, height, FPS);
+                       currentScreen = new CountryScoreScreen(width, height, FPS, conn, login_Manager);
                         LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-                                + " Two Play high score screen at " + FPS + " fps.");
+                                + " Country score screen at " + FPS + " fps.");
                         returnCode = frame.setScreen(currentScreen);
-                        LOGGER.info("Closing Two Play high score screen.");
+                        LOGGER.info("Closing Country score screen.");
                         break;
                     }
                     else if(scorescreen == 33)

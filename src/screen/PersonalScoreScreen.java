@@ -1,18 +1,13 @@
 package screen;
 
 import java.awt.event.KeyEvent;
+import java.sql.*;
 import java.util.List;
 
-import engine.Cooldown;
-import engine.Core;
-import engine.Score;
+import engine.*;
+import org.w3c.dom.DOMStringList;
 
 import java.util.ArrayList;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class PersonalScoreScreen extends Screen {
 
@@ -25,12 +20,10 @@ public class PersonalScoreScreen extends Screen {
     private Cooldown SelectCooldown;
 
     // 데이터베이스 계정
-    private final String url = "jdbc:postgresql://localhost/invader";
-    private final String user = "user";
-    private final String password = "password";
+    private DatabaseConnect dbConnect;
+    private static Connection conn;
 
     // 개인 점수 열람할 계정
-    String userId = "user13";
 
     private ArrayList<String> ranking_easy = new ArrayList<>();
     private ArrayList<String> ranking_normal = new ArrayList<>();
@@ -48,46 +41,39 @@ public class PersonalScoreScreen extends Screen {
      * @param fps
      *            Frames per second, frame rate at which the game is run.
      */
-    public PersonalScoreScreen(final int width, final int height, final int fps) {
+    public PersonalScoreScreen(final int width, final int height, final int fps, Connection conn, LoginManager loginManager) {
         super(width, height, 60);
-
-        try (Connection connection = DriverManager.getConnection(url, user, password)) {
-            for(int difficulty = 0; difficulty < 4; difficulty++) {
-                String query = "SELECT RANK() OVER (ORDER BY s.score DESC) :: int AS ranking, " +
-                        "s.id AS client_id, c.client_name, s.score " +
-                        "FROM score s " +
-                        "JOIN client c ON s.id = c.id " +
-                        "WHERE s.id = ? AND s.difficulty = ?";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                    preparedStatement.setString(1, userId);
-                    preparedStatement.setInt(2, difficulty);
-
-                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                        List<String> stringList = new ArrayList<>();
-                        while (resultSet.next()) {
-                            int ranking = resultSet.getInt("ranking");
-                            String clientId = resultSet.getString("client_id");
-                            String clientName = resultSet.getString("client_name");
-                            int score = resultSet.getInt("score");
-                            Title = "ID: " + clientId + "  NAME: " + clientName;
-                            String resultString = "Ranking: " + ranking + ", Score: " + score;
-                            //System.out.println("Ranking: " + ranking + ", Score: " + score);
-                            stringList.add(resultString);
-                        }
-                        if (difficulty == 0){
-                            ranking_easy.addAll(stringList);
-                        } else if (difficulty == 1) {
-                            ranking_normal.addAll(stringList);
-                        } else if (difficulty == 2) {
-                            ranking_hard.addAll(stringList);
-                        } else if (difficulty == 3) {
-                            ranking_hardcore.addAll(stringList);
-                        }
-                    }
+        for(int difficulty = 1; difficulty < 5; difficulty++) {
+            String sql = "SELECT * FROM ranking(?) WHERE id = ?";
+            try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setInt(1, difficulty);
+                preparedStatement.setString(2, loginManager.get_id());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                List<String> stringList = new ArrayList<>();
+                while(resultSet.next()){
+                    int ranking = resultSet.getInt("ranking");
+                    String id = resultSet.getString("id");
+                    String clientName = resultSet.getString("client_name");
+                    int score = resultSet.getInt("score");
+                    Title = "ID : " + id + " Name : " + clientName;
+                    String resultString = "Ranking : " +ranking + ", Score : " + score;
+                    stringList.add(resultString);
                 }
+                if (difficulty - 1 == 0) {
+                        ranking_easy.addAll(stringList);
+                } else if (difficulty - 1 == 1) {
+                        ranking_normal.addAll(stringList);
+                } else if (difficulty - 1 == 2) {
+                        ranking_hard.addAll(stringList);
+                } else {
+                        ranking_hardcore.addAll(stringList);
+                }
+
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            catch (SQLException e){
+                e.printStackTrace();
+            }
+
         }
 
         this.SelectCooldown = Core.getCooldown(200);
@@ -137,7 +123,7 @@ public class PersonalScoreScreen extends Screen {
      */
     private void draw() {
         drawManager.initDrawing(this);
-        drawManager.drawHighScoreMenu(this);
+        drawManager.drawTitle(this, Title);
         drawManager.drawDiffScore(this, this.difficulty);
 
         if (this.difficulty == 0)

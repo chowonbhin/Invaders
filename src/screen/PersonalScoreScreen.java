@@ -52,7 +52,7 @@ public class PersonalScoreScreen extends Screen {
         }
 
         for(int difficulty = 1; difficulty < 5; difficulty++) {
-            String sql = "SELECT * FROM ranking(?) WHERE id = ?";
+            String sql = "SELECT * FROM score WHERE difficulty = ? and id = ? order by score DESC";
             try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setInt(1, difficulty);
                 preparedStatement.setString(2, loginManager.get_id());

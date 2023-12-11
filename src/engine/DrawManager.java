@@ -562,7 +562,7 @@ public final class DrawManager {
 			backBufferGraphics.drawString("NO_NAME", screen.getWidth()-240, 25);
 		}
 		else {
-			backBufferGraphics.drawString("Username : " + user, screen.getWidth() - 240, 25);
+			backBufferGraphics.drawString("Name : " + user, screen.getWidth() - 240, 25);
 		}
 	}
 
@@ -899,13 +899,16 @@ public final class DrawManager {
 	public void drawTitle(final Screen screen) {
 		String titleString = "I N V A D E R S";
 		String instructionsString = "Select with W + S, confirm with SPACE.";
-
+		String aboutLogString = "Select with W + S, Sign in, Sign Out, confirm with L";
 		backBufferGraphics.setColor(blinkingColor("GRAY"));
 		drawCenteredRegularString(screen, instructionsString,
 				screen.getHeight() / 2);
 
 		backBufferGraphics.setColor(blinkingColor("GREEN"));
 		drawCenteredBigString(screen, titleString, screen.getHeight() / 3);
+
+		backBufferGraphics.setColor(blinkingColor("GRAY"));
+		drawCenteredRegularString(screen, aboutLogString, screen.getHeight() / 2 + fontRegularMetrics.getHeight());
 	}
 
 	/**
@@ -920,8 +923,8 @@ public final class DrawManager {
 		String playString = "P L A Y";
 		String rankingString = "R A N K I N G";
 		String exitString = "E X I T";
-		String login = "L O G I N";
-		String logout = "L O G O U T";
+		String login = "S I G N I N";
+		String logout = "S I G N O U T";
 		if (option == 2)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else

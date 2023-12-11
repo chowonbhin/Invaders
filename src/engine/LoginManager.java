@@ -11,11 +11,9 @@ public class LoginManager {
     private String name;
     private String country;
     private Connection conn;
-    private DatabaseConnect dbConnect;
-    public LoginManager(){
+    public LoginManager(Connection conn){
         //if call Loginmanager, call database's connecting method
-        dbConnect = new DatabaseConnect();
-        conn = dbConnect.connect();
+        this.conn = conn;
     }
 
 
@@ -47,8 +45,8 @@ public class LoginManager {
         return false;
     }
     //Call about Login Screen
-    public void callLoginScreen(){
-        LoginScreen loginScreen = new LoginScreen();
+    public void callLoginScreen(LoginManager loginManager){
+        LoginScreen loginScreen = new LoginScreen(conn, loginManager);
     }
 
     public String get_id(){
@@ -65,6 +63,13 @@ public class LoginManager {
 
     public String get_country(){
         return country;
+    }
+
+    public void logout(){
+        id = null;
+        password = null;
+        name = null;
+        country = null;
     }
 
 

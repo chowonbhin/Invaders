@@ -5,8 +5,8 @@ import java.sql.*;
 public class RegisterManager {
     private Connection conn;
     private DatabaseConnect DBconnect;
-    public RegisterManager(){
-        conn = DBconnect.connect();
+    public RegisterManager(Connection conn){
+        this.conn = conn;
     }
 
 

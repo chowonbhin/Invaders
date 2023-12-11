@@ -37,11 +37,11 @@ public class RegisterScreen implements ActionListener{
     private String name;
     private String country;
 
+    private boolean framinfo = true;
 
-    private DatabaseConnect databaseConnect;
-
-    public RegisterScreen() {
-
+    public RegisterScreen(Connection conn, RegisterManager registerManager) {
+        this.registerManager = registerManager;
+        this.conn = conn;
         frame = new JFrame();
         panel = new JPanel();
         idLabel = new JLabel("ID");
@@ -86,7 +86,7 @@ public class RegisterScreen implements ActionListener{
         frame.setTitle("Invaders Sign up");					// name on the top of the frame
         frame.setSize(320, 260);								// size of the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// call System.exit() on closing
-        frame.setVisible(true);									// display the frame on the screen
+        frame.setVisible(framinfo);									// display the frame on the screen
 
     }
 
@@ -97,12 +97,13 @@ public class RegisterScreen implements ActionListener{
             password = new String(pwdInput.getPassword());
             name = nameInput.getText();
             country = countryInput.getText();
-            conn = databaseConnect.connect();
 
             //check about user can sign up our database
             if(conn != null){
                 if(registerManager.join_membership(id, password, name, country)){
                     System.out.println("sign up Success");
+                    framinfo = false;
+                    frame.setVisible(framinfo);
                 }
                 else{
                     System.out.println("sign up fail");

@@ -160,7 +160,7 @@ public class GameScreen extends Screen {
 	private Map<Color, Boolean> equippedSkins;
 
 	private int BulletsRemaining=99;
-	private String user;
+	private final String user;
 
 
 
@@ -206,6 +206,7 @@ public class GameScreen extends Screen {
 		this.clearCoin = getClearCoin();
 		this.shipColor = gameState.getShipColor();
 		this.nowSkinString = gameState.getNowSkinString();
+		this.user = user;
 
 
 		this.laserActivate = (gameSettings.getDifficulty() == 1 && getGameState().getLevel() >= 4) || (gameSettings.getDifficulty() > 1);

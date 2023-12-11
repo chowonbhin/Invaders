@@ -454,15 +454,15 @@ public final class Core {
 
                     // High scores.
                     currentScreen = new ScoreMenuScreen(width, height, FPS);
-                    LOGGER.info("Starting " + WIDTH + "x" + HEIGHT + " high score menu screen at " + FPS + " fps.");
+                    LOGGER.info("Starting " + WIDTH + "x" + HEIGHT + " select score screen at " + FPS + " fps.");
                     int scorescreen = frame.setScreen(currentScreen);
                     if(scorescreen == 31)
                     {
                         currentScreen = new PersonalScoreScreen(width, height, FPS, conn, login_Manager);
                         LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-                                + " high score screen at " + FPS + " fps.");
+                                + " Personal Score screen at " + FPS + " fps.");
                         returnCode = frame.setScreen(currentScreen);
-                        LOGGER.info("Closing high score screen.");
+                        LOGGER.info("Closing Personal Score  screen.");
                         break;
                     }
                     else if(scorescreen == 32)
@@ -476,11 +476,11 @@ public final class Core {
                     }
                     else if(scorescreen == 33)
                     {
-                        //currentScreen = new PersonalScoreScreen(width, height, FPS);
+                        currentScreen = new GlobalScoreScreen(width, height, FPS, conn, login_Manager);
                         LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-                                + " Two Play high score screen at " + FPS + " fps.");
+                                + " Global score screen at " + FPS + " fps.");
                         returnCode = frame.setScreen(currentScreen);
-                        LOGGER.info("Closing Two Play high score screen.");
+                        LOGGER.info("Closing Global score screen.");
                         break;
                     }
                     else

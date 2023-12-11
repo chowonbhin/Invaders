@@ -2569,4 +2569,19 @@ public final class DrawManager {
 				break;
 		}
 	}
+	public void drawFriend(final Screen screen,
+							final ArrayList<String> highScores) {
+		backBufferGraphics.setColor(blinkingColor("WHITE"));
+		int i = 0;
+		String scoreString = "";
+		String rank[] = {"1st", "2nd", "3th", "4th", "5th"};
+
+		for (String str : highScores) {
+			drawCenteredRegularString(screen, str, screen.getHeight()
+					/ 3 + fontRegularMetrics.getHeight() * (i + 1) * 2);
+			i++;
+			if (i >= 10)
+				break;
+		}
+	}
 }

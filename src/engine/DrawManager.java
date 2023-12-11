@@ -562,7 +562,7 @@ public final class DrawManager {
 			backBufferGraphics.drawString("NO_NAME", screen.getWidth()-240, 25);
 		}
 		else {
-			backBufferGraphics.drawString("Name : " + user, screen.getWidth() - 240, 25);
+			backBufferGraphics.drawString(user, screen.getWidth() - 240, 25);
 		}
 	}
 
@@ -1523,7 +1523,7 @@ public final class DrawManager {
 		String TitlescoreString = Title;
 		String instructionsString = "Press SPACE to return";
 
-		if("".equals(Title)){
+		if("".equals(Title) || Title == null){
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 			drawCenteredBigString(screen, "Sign in Please", screen.getHeight() / 8);
 		}

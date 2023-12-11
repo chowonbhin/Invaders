@@ -2,15 +2,12 @@ package screen;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-import engine.Cooldown;
-import engine.Core;
-import engine.GameState;
-import engine.Score;
-
-import engine.SoundEffect;
+import engine.*;
 
 /**
  * Implements the score screen.
@@ -80,6 +77,8 @@ public class ScoreScreen extends Screen {
 	/** For selection moving sound */
 	private SoundEffect soundEffect;
 
+	private Connection conn;
+	private ScoreManager scoreManager;
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 *
@@ -89,7 +88,8 @@ public class ScoreScreen extends Screen {
 	 * @param gameState Current game state.
 	 */
 	public ScoreScreen(final int width, final int height, final int fps,
-					   final GameState gameState, final int difficulty) {
+					   final GameState gameState, final int difficulty, Connection conn
+						, LoginManager loginManager) {
 		super(width, height, fps);
 		this.difficulty = difficulty;
 		this.score = gameState.getScore();
@@ -101,9 +101,10 @@ public class ScoreScreen extends Screen {
 		this.nameCharSelected = 0;
 		this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
 		this.selectionCooldown.reset();
+		this.conn = conn;
+		this.scoreManager = new ScoreManager(this.conn, loginManager);
 
 		soundEffect = new SoundEffect();
-
 		try {
 			this.highScores = Core.getFileManager().loadHighScores(this.difficulty);
 			if (highScores.size() < MAX_HIGH_SCORE_NUM
@@ -142,14 +143,14 @@ public class ScoreScreen extends Screen {
 				this.returnCode = 1;
 				this.isRunning = false;
 				if (this.isNewRecord)
-					saveScore();
+					saveScore(conn);
 			} else if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
 				soundEffect.playSpaceButtonSound();
 				// Play again.
 				this.returnCode = 2;
 				this.isRunning = false;
 				if (this.isNewRecord)
-					saveScore();
+					saveScore(conn);
 			}
 
 			if (this.isNewRecord && this.selectionCooldown.checkFinished()) {
@@ -189,17 +190,14 @@ public class ScoreScreen extends Screen {
 	/**
 	 * Saves the score as a high score.
 	 */
-	private void saveScore() {
+	private void saveScore(Connection conn) {
+
 		highScores.add(new Score(new String(this.name), score));
 		Collections.sort(highScores);
 		if (highScores.size() > MAX_HIGH_SCORE_NUM)
 			highScores.remove(highScores.size() - 1);
 
-		try {
-			Core.getFileManager().saveHighScores(highScores, difficulty);
-		} catch (IOException e) {
-			logger.warning("Couldn't load high scores!");
-		}
+		scoreManager.scoreUpdate(score, difficulty);
 	}
 
 	/**

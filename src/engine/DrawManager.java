@@ -1512,6 +1512,23 @@ public final class DrawManager {
 		drawCenteredRegularString(screen, instructionsString,
 				screen.getHeight() / 5);
 	}
+	public void drawTitle(final Screen screen, String Title){
+		String TitlescoreString = Title;
+		String instructionsString = "Press SPACE to return";
+
+		if("".equals(Title)){
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+			drawCenteredBigString(screen, "Sign in Please", screen.getHeight() / 8);
+		}
+		else{
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+			drawCenteredBigString(screen, TitlescoreString, screen.getHeight() / 8);
+		}
+
+		backBufferGraphics.setColor(blinkingColor("GRAY"));
+		drawCenteredRegularString(screen, instructionsString,
+				screen.getHeight() / 5);
+	}
 
 	/**
 	 * Draws high scores.

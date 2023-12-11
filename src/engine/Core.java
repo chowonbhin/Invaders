@@ -122,7 +122,7 @@ public final class Core {
     private static String user = null;
     private static DatabaseConnect dbconnect;
     private static Connection conn;
-
+    private static ScoreManager scoreManager;
 
     /**
      * Test implementation.
@@ -145,6 +145,8 @@ public final class Core {
             dbconnect = new DatabaseConnect();
             conn = dbconnect.connect();
             login_Manager = new LoginManager(conn);
+            scoreManager = new ScoreManager(conn, login_Manager);
+
             LOGGER.addHandler(fileHandler);
             LOGGER.addHandler(consoleHandler);
             LOGGER.setLevel(Level.ALL);
@@ -444,7 +446,7 @@ public final class Core {
                             + gameState.getLivesRemaining() + " lives remaining, "
                             + gameState.getBulletsShot() + " ship bullets shot and "
                             + gameState.getShipsDestroyed() + " ships destroyed.");
-                    currentScreen = new ScoreScreen(width, height, FPS, gameState, difficulty);
+                    currentScreen = new ScoreScreen(width, height, FPS, gameState, difficulty, conn, login_Manager);
                     returnCode = frame.setScreen(currentScreen);
                     LOGGER.info("Closing score screen.");
                     break;
@@ -456,7 +458,7 @@ public final class Core {
                     int scorescreen = frame.setScreen(currentScreen);
                     if(scorescreen == 31)
                     {
-                        currentScreen = new PersonalScoreScreen(width, height, FPS);
+                        currentScreen = new PersonalScoreScreen(width, height, FPS, conn, login_Manager);
                         LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
                                 + " high score screen at " + FPS + " fps.");
                         returnCode = frame.setScreen(currentScreen);

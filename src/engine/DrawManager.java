@@ -902,13 +902,13 @@ public final class DrawManager {
 		String aboutLogString = "Select with W + S, Sign in, Sign Out, confirm with L";
 		backBufferGraphics.setColor(blinkingColor("GRAY"));
 		drawCenteredRegularString(screen, instructionsString,
-				screen.getHeight() / 2);
+				screen.getHeight() / 2 - (fontRegularMetrics.getHeight() * 2));
 
 		backBufferGraphics.setColor(blinkingColor("GREEN"));
 		drawCenteredBigString(screen, titleString, screen.getHeight() / 3);
 
 		backBufferGraphics.setColor(blinkingColor("GRAY"));
-		drawCenteredRegularString(screen, aboutLogString, screen.getHeight() / 2 + fontRegularMetrics.getHeight());
+		drawCenteredRegularString(screen, aboutLogString, screen.getHeight() / 2 - fontRegularMetrics.getHeight());
 	}
 
 	/**
@@ -923,31 +923,38 @@ public final class DrawManager {
 		String playString = "P L A Y";
 		String rankingString = "R A N K I N G";
 		String exitString = "E X I T";
-		String login = "S I G N I N";
-		String logout = "S I G N O U T";
+		String login = "S I G N  I N";
+		String logout = "S I G N  O U T";
+		String friend = "F I R E N D";
 		if (option == 2)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
 		drawCenteredRegularString(screen, playString,
-				screen.getHeight() / 3 * 2 - fontRegularMetrics.getHeight());
+				screen.getHeight() / 3 * 2 - (fontRegularMetrics.getHeight() * 3));
 		if (option == 3)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
 		drawCenteredRegularString(screen, rankingString, screen.getHeight()
-				/ 3 * 2 + fontRegularMetrics.getHeight());
+				/ 3 * 2 - fontRegularMetrics.getHeight());
 		if(option == 40)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
 		drawCenteredRegularString(screen, login, screen.getHeight()
-				/ 3 * 2 + fontRegularMetrics.getHeight() * 3);
+				/ 3 * 2 + fontRegularMetrics.getHeight());
 		if(option == 41)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else
 			backBufferGraphics.setColor(blinkingColor("WHITE"));
 		drawCenteredRegularString(screen, logout, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 3);
+		if(option == 42)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, friend, screen.getHeight()
 				/ 3 * 2 + fontRegularMetrics.getHeight() * 5);
 		if (option == 0)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
@@ -2583,5 +2590,40 @@ public final class DrawManager {
 			if (i >= 10)
 				break;
 		}
+	}
+	public void drawFriendMenu(final Screen screen, final int option){
+		String SelectString = "Select Mode with W + S, confirm with SPACE.";
+		String FriendListString = "F R I E N D L I S T";
+		String AddFriendString = "A D D F R I E N D";
+		String DeleteFriendString = "D E L E T E F R I E N D";
+		String MainMenuString = "M a i n  M e n u";
+
+		backBufferGraphics.setColor(blinkingColor("GRAY"));
+		drawCenteredRegularString(screen, SelectString, screen.getHeight() / 8);
+		if (option == 43)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, FriendListString,
+				screen.getHeight() / 3 * 2);
+		if(option == 44)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, AddFriendString, screen.getHeight() / 3 * 2
+				+fontRegularMetrics.getHeight() * 2);
+		if(option == 45)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, DeleteFriendString, screen.getHeight() / 3 * 2
+				+ fontRegularMetrics.getHeight() * 4);
+		if (option == 1)
+			backBufferGraphics.setColor(blinkingColor("GREEN"));
+		else
+			backBufferGraphics.setColor(blinkingColor("WHITE"));
+		drawCenteredRegularString(screen, MainMenuString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 6);
+
 	}
 }

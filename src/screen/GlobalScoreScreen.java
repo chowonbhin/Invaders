@@ -43,6 +43,7 @@ public class GlobalScoreScreen extends Screen {
      */
     public GlobalScoreScreen(final int width, final int height, final int fps, Connection conn, LoginManager loginManager) {
         super(width, height, 60);
+        Title = "Global Score";
         for(int difficulty = 1; difficulty < 5; difficulty++) {
             String sql = "SELECT ranking, id, client_name, score, country FROM ranking(?) natural join client";
             try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -55,7 +56,6 @@ public class GlobalScoreScreen extends Screen {
                     String clientName = resultSet.getString("client_name");
                     int score = resultSet.getInt("score");
                     String country = resultSet.getString("country");
-                    Title = "Global Score";
                     String resultString = "Ranking : " + ranking + " | Country : " + country + " | Name : "+ clientName +  " | Score :  " + score;
                     stringList.add(resultString);
                 }

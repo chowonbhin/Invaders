@@ -123,6 +123,7 @@ public final class Core {
     private static DatabaseConnect dbconnect;
     private static Connection conn;
     private static ScoreManager scoreManager;
+    private static FriendManager friendManager;
 
     /**
      * Test implementation.
@@ -146,6 +147,7 @@ public final class Core {
             conn = dbconnect.connect();
             login_Manager = new LoginManager(conn);
             scoreManager = new ScoreManager(conn, login_Manager);
+            friendManager = new FriendManager(conn);
 
             LOGGER.addHandler(fileHandler);
             LOGGER.addHandler(consoleHandler);
@@ -543,6 +545,41 @@ public final class Core {
                     returnCode = frame.setScreen(currentScreen);
                     LOGGER.info("Closing title screen.");
 
+                    break;
+                case 42:
+                    currentScreen = new FriendMenuScreen(width, height, FPS);
+                    LOGGER.info("Starting " + WIDTH + "x" + HEIGHT + " friend menu at " + FPS + " fps.");
+                    int friendscreen = frame.setScreen(currentScreen);
+                    if(friendscreen == 43)
+                    {
+                        currentScreen = new FriendListScreen(width, height, FPS, conn , login_Manager.get_id(), friendManager);
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + " friend list screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing Personal Score  screen.");
+                        break;
+                    }
+                    else if(friendscreen == 44)
+                    {
+
+                        friendManager.getaddfriend(login_Manager.get_id());
+                        currentScreen = new FriendMenuScreen(width, height, FPS);
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT + " friend menu at " + FPS + " fps.");
+                        friendscreen = frame.setScreen(currentScreen);
+
+                        break;
+                    }
+                    else if(friendscreen == 45)
+                    {
+                        friendManager.getdeletefriend(login_Manager.get_id());
+                        currentScreen = new FriendMenuScreen(width, height, FPS);
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT + " friend menu at " + FPS + " fps.");
+                        friendscreen = frame.setScreen(currentScreen);
+                        break;
+                    }
+                    else
+                        returnCode = frame.setScreen(currentScreen);
+                    LOGGER.info("Closing friend menu screen.");
                     break;
                 default:
                     break;

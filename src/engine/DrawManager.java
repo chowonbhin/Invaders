@@ -22,10 +22,7 @@ import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
@@ -1502,7 +1499,7 @@ public final class DrawManager {
 	 *               Screen to draw on.
 	 */
 	public void drawHighScoreMenu(final Screen screen) {
-		String highScoreString = "High Scores";
+		String highScoreString = "Personal RANKING";
 		String instructionsString = "Press SPACE to return";
 
 		backBufferGraphics.setColor(blinkingColor("HIGH_SCORES"));
@@ -2535,6 +2532,21 @@ public final class DrawManager {
 			backBufferGraphics.setColor(Color.red);
 			String text = "Miss";
 			backBufferGraphics.drawString(text, screen.getWidth() - 90, 80);
+		}
+	}
+	public void drawRanking(final Screen screen,
+							final ArrayList<String> highScores) {
+		backBufferGraphics.setColor(blinkingColor("WHITE"));
+		int i = 0;
+		String scoreString = "";
+		String rank[] = {"1st", "2nd", "3th", "4th", "5th"};
+
+		for (String str : highScores) {
+			drawCenteredRegularString(screen, str, screen.getHeight()
+					/ 3 + fontRegularMetrics.getHeight() * (i + 1) * 2);
+			i++;
+			if (i >= 5)
+				break;
 		}
 	}
 }

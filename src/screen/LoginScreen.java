@@ -72,30 +72,23 @@ public class LoginScreen implements ActionListener{
 
     }
 
-    //Update user status
-    private void updateIsOnline(Connection conn, String userId, boolean isOnline) {
-        String sql = "UPDATE Client SET is_online = ? WHERE id = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setBoolean(1, isOnline);
-            pstmt.setString(2, userId);
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == loginButton){
             id = idInput.getText();
             password = new String(pwdInput.getPassword());
+            databaseConnect = new DatabaseConnect();
+            loginManager = new LoginManager();
             conn = databaseConnect.connect();
 
             //check about user can login our database
             if(conn != null){
                 if(loginManager.loginCheck(conn, id, password)){
                     System.out.println("login Success");
-                    updateIsOnline(conn, id, true);
+                    loginManager.updateIsOnline(conn, id, true);
+                    frame.setVisible(false);
                 }
                 else{
                     System.out.println("login fail");

@@ -2,10 +2,7 @@ package engine;
 
 import screen.LoginScreen;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class LoginManager {
 
@@ -29,7 +26,7 @@ public class LoginManager {
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM client");
-            if(rs.next()){
+            while(rs.next()){
                 String id_data = rs.getString(1);
                 String password_data = rs.getString(2);
                 if(inputted_id.equals(id_data) && inputted_password.equals(password_data)){
@@ -68,5 +65,18 @@ public class LoginManager {
 
     public String get_country(){
         return country;
+    }
+
+
+    //Update user status
+    public void updateIsOnline(Connection conn, String userId, boolean isOnline) {
+        String sql = "UPDATE Client SET is_online = ? WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setBoolean(1, isOnline);
+            pstmt.setString(2, userId);
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

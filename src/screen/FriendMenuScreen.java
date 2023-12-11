@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 
 import engine.Cooldown;
 import engine.Core;
-import engine.SoundEffect;
 
 public class FriendMenuScreen extends Screen{
     /** Milliseconds between changes in user selection. */
@@ -12,7 +11,6 @@ public class FriendMenuScreen extends Screen{
     /** Time between changes in user selection. */
     private Cooldown selectionCooldown;
     /** For selection moving sound */
-    private SoundEffect soundEffect;
 
 
     /**
@@ -33,7 +31,6 @@ public class FriendMenuScreen extends Screen{
         this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
         this.selectionCooldown.reset();
 
-        soundEffect = new SoundEffect();
     }
 
     /**
@@ -58,18 +55,16 @@ public class FriendMenuScreen extends Screen{
                 && this.inputDelay.checkFinished()) {
             if (inputManager.isKeyDown(KeyEvent.VK_UP)
                     || inputManager.isKeyDown(KeyEvent.VK_W)) {
-                soundEffect.playButtonClickSound();
                 previousMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_DOWN)
                     || inputManager.isKeyDown(KeyEvent.VK_S)) {
-                soundEffect.playButtonClickSound();
                 nextMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_SPACE) && (!(this.returnCode == 45) && !(this.returnCode == 44))) {
-                soundEffect.playSpaceButtonSound();
+
                 this.isRunning = false;
             }
             if(inputManager.isKeyPressedOnce(KeyEvent.VK_L)){

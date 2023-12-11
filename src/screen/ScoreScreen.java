@@ -75,7 +75,6 @@ public class ScoreScreen extends Screen {
 	 */
 	private int difficulty;
 	/** For selection moving sound */
-	private SoundEffect soundEffect;
 
 	private Connection conn;
 	private ScoreManager scoreManager;
@@ -104,7 +103,6 @@ public class ScoreScreen extends Screen {
 		this.conn = conn;
 		this.scoreManager = new ScoreManager(this.conn, loginManager);
 
-		soundEffect = new SoundEffect();
 		try {
 			this.highScores = Core.getFileManager().loadHighScores(this.difficulty);
 			if (highScores.size() < MAX_HIGH_SCORE_NUM
@@ -138,14 +136,12 @@ public class ScoreScreen extends Screen {
 
 		if (this.inputDelay.checkFinished()) {
 			if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
-				soundEffect.playSpaceButtonSound();
 				// Return to main menu.
 				this.returnCode = 1;
 				this.isRunning = false;
 				if (this.isNewRecord)
 					saveScore(conn);
 			} else if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
-				soundEffect.playSpaceButtonSound();
 				// Play again.
 				this.returnCode = 2;
 				this.isRunning = false;
@@ -155,19 +151,16 @@ public class ScoreScreen extends Screen {
 
 			if (this.isNewRecord && this.selectionCooldown.checkFinished()) {
 				if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)) {
-					soundEffect.playButtonClickSound();
 					this.nameCharSelected = this.nameCharSelected == 2 ? 0
 							: this.nameCharSelected + 1;
 					this.selectionCooldown.reset();
 				}
 				if (inputManager.isKeyDown(KeyEvent.VK_LEFT)) {
-					soundEffect.playButtonClickSound();
 					this.nameCharSelected = this.nameCharSelected == 0 ? 2
 							: this.nameCharSelected - 1;
 					this.selectionCooldown.reset();
 				}
 				if (inputManager.isKeyDown(KeyEvent.VK_UP)) {
-					soundEffect.playButtonClickSound();
 					this.name[this.nameCharSelected] =
 							(char) (this.name[this.nameCharSelected]
 									== LAST_CHAR ? FIRST_CHAR
@@ -175,7 +168,6 @@ public class ScoreScreen extends Screen {
 					this.selectionCooldown.reset();
 				}
 				if (inputManager.isKeyDown(KeyEvent.VK_DOWN)) {
-					soundEffect.playButtonClickSound();
 					this.name[this.nameCharSelected] =
 							(char) (this.name[this.nameCharSelected]
 									== FIRST_CHAR ? LAST_CHAR
@@ -205,15 +197,8 @@ public class ScoreScreen extends Screen {
 	 */
 	private void draw() {
 		drawManager.initDrawing(this);
+		drawManager.drawTitle(this, "GameOVER");
 
-		drawManager.drawGameOver(this, this.inputDelay.checkFinished(),
-				this.isNewRecord);
-		drawManager.drawResults(this, this.score, this.livesRemaining,
-				this.shipsDestroyed, this.difficulty, (float) this.shipsDestroyed
-						/ this.bulletsShot, this.isNewRecord);
-
-		if (this.isNewRecord)
-			drawManager.drawNameInput(this, this.name, this.nameCharSelected);
 
 		drawManager.completeDrawing(this);
 	}

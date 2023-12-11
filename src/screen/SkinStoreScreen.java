@@ -8,7 +8,6 @@ import engine.Core;
 import engine.EnhanceManager;
 import engine.GameState;
 import engine.SkinBuyManager;
-import engine.SoundEffect;
 import entity.Coin;
 
 public class SkinStoreScreen extends Screen {
@@ -19,7 +18,6 @@ public class SkinStoreScreen extends Screen {
      private Cooldown selectionCooldown;
 
     /** For selection moving sound */
-    private SoundEffect soundEffect;
 
     private Coin coin;
 
@@ -54,7 +52,6 @@ public class SkinStoreScreen extends Screen {
          this.coin = gameState.getCoin();
          this.gameState = gameState;
          this.enhanceManager = enhanceManager;
-         soundEffect = new SoundEffect();
          this.skinBuyManager = new SkinBuyManager(gameState);
      }
  
@@ -80,30 +77,25 @@ public class SkinStoreScreen extends Screen {
                 && this.inputDelay.checkFinished()) {
             if (inputManager.isKeyDown(KeyEvent.VK_UP)
                     || inputManager.isKeyDown(KeyEvent.VK_W)) {
-                soundEffect.playButtonClickSound();
                 UpMenuSkin();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_DOWN)
                     || inputManager.isKeyDown(KeyEvent.VK_S)) {
-                soundEffect.playButtonClickSound();
                 DownMenuSkin();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
                     || inputManager.isKeyDown(KeyEvent.VK_D)) {
-                soundEffect.playButtonClickSound();
                 rightMenuSkin();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
                     || inputManager.isKeyDown(KeyEvent.VK_A)) {
-                soundEffect.playButtonClickSound();
                 leftMenuSkin();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
-                soundEffect.playSpaceButtonSound();
                 if (returnCode == 86){
                     if(skinBuyManager.isSkinOwned(Color.YELLOW)){
                         if(skinBuyManager.isSkinEquipped(Color.YELLOW)){

@@ -3,7 +3,6 @@ package screen;
 import java.awt.event.KeyEvent;
 import engine.Cooldown;
 import engine.Core;
-import engine.SoundEffect;
 
 public class RecoveryScreen extends Screen {
 
@@ -14,7 +13,6 @@ public class RecoveryScreen extends Screen {
     private Cooldown selectionCooldown;
 
     /** For selection moving sound */
-    private SoundEffect soundEffect;
 
     /**
      * Constructor, establishes the properties of the screen.
@@ -33,8 +31,7 @@ public class RecoveryScreen extends Screen {
         this.returnCode = 30;
         this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
         this.selectionCooldown.reset();
-        
-        soundEffect = new SoundEffect();
+
     }
 
     /**
@@ -60,18 +57,15 @@ public class RecoveryScreen extends Screen {
                 && this.inputDelay.checkFinished()) {
             if (inputManager.isKeyDown(KeyEvent.VK_UP)
                     || inputManager.isKeyDown(KeyEvent.VK_W)) {
-                soundEffect.playButtonClickSound();
                 previousMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_DOWN)
                     || inputManager.isKeyDown(KeyEvent.VK_S)) {
-                soundEffect.playButtonClickSound();
                 nextMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
-                soundEffect.playSpaceButtonSound();
                 this.isRunning = false;
             }
         }

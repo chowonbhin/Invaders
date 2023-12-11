@@ -450,11 +450,29 @@ public final class Core {
                     int scorescreen = frame.setScreen(currentScreen);
                     if(scorescreen == 31)
                     {
-                        currentScreen = new HighScoreScreen(width, height, FPS);
+                        currentScreen = new PersonalScoreScreen(width, height, FPS);
                         LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
                                 + " high score screen at " + FPS + " fps.");
                         returnCode = frame.setScreen(currentScreen);
                         LOGGER.info("Closing high score screen.");
+                        break;
+                    }
+                    else if(scorescreen == 32)
+                    {
+                       // currentScreen = new TwoPlayHighScoreScreen(width, height, FPS);
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + " Two Play high score screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing Two Play high score screen.");
+                        break;
+                    }
+                    else if(scorescreen == 33)
+                    {
+                        //currentScreen = new PersonalScoreScreen(width, height, FPS);
+                        LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+                                + " Two Play high score screen at " + FPS + " fps.");
+                        returnCode = frame.setScreen(currentScreen);
+                        LOGGER.info("Closing Two Play high score screen.");
                         break;
                     }
                     else

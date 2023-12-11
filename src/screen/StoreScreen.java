@@ -7,7 +7,6 @@ import engine.Core;
 import engine.EnhanceManager;
 import engine.GameState;
 import engine.ItemManager;
-import engine.SoundEffect;
 import entity.Coin;
 
 public class StoreScreen extends Screen {
@@ -17,7 +16,6 @@ public class StoreScreen extends Screen {
     /** Time between changes in user selection. */
     private Cooldown selectionCooldown;
     /** For selection moving sound */
-    private SoundEffect soundEffect;
 
     private Coin coin;
 
@@ -50,7 +48,6 @@ public class StoreScreen extends Screen {
         this.gameState = gameState;
         this.enhanceManager = enhanceManager;
         this.itemManager = itemManager;
-        soundEffect = new SoundEffect();
     }
 
     /**
@@ -75,30 +72,25 @@ public class StoreScreen extends Screen {
                 && this.inputDelay.checkFinished()) {
             if (inputManager.isKeyDown(KeyEvent.VK_UP)
                     || inputManager.isKeyDown(KeyEvent.VK_W)) {
-                soundEffect.playButtonClickSound();
                 UpMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_DOWN)
                     || inputManager.isKeyDown(KeyEvent.VK_S)) {
-                soundEffect.playButtonClickSound();
                 DownMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
                     || inputManager.isKeyDown(KeyEvent.VK_D)) {
-                soundEffect.playButtonClickSound();
                 rightMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
                     || inputManager.isKeyDown(KeyEvent.VK_A)) {
-                soundEffect.playButtonClickSound();
                 leftMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
-                soundEffect.playSpaceButtonSound();
                 if (returnCode == 35 && gameState != null){
                     if (this.coin.getCoin() >= 150)
                     {

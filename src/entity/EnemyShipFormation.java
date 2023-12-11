@@ -61,7 +61,6 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	/** Screen to draw ships on. */
 	private Screen screen;
 	/** Sound Effects for enemy's shooting. */
-	private SoundEffect soundEffect;
 
 	/** List of enemy ships forming the formation. */
 	private List<List<EnemyShip>> enemyShips;
@@ -617,15 +616,13 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 */
 	public final void shoot(final Set<Bullet> bullets) {
 		// For now, only ships in the bottom row are able to shoot.
-		soundEffect = new SoundEffect();
 		Set<EnemyShip> shooters = numberOfShooters();
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
 			for(EnemyShip shooter : shooters){
 				bullets.add(BulletPool.getBullet(shooter.getPositionX()
 						+ shooter.width / 2, shooter.getPositionY(), BULLET_SPEED, 
-						this.baseAttackDamage)); // (int)(Math.random() * BULLET_SPEED) + 1)
-				soundEffect.playEnemyShootingSound();
+						this.baseAttackDamage));
 				if(shooter.checkIsBoss()) {
 					bullets.add(BulletPool.getBullet(shooter.getPositionX()
 							+ shooter.width / 2, shooter.getPositionY(), BULLET_SPEED, 

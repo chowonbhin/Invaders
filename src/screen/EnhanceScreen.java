@@ -9,7 +9,6 @@ import engine.Core;
 import engine.EnhanceManager;
 import engine.GameSettings;
 import engine.GameState;
-import engine.SoundEffect;
 import entity.Coin;
 
 /**
@@ -44,7 +43,6 @@ public class EnhanceScreen extends Screen {
     /** Game settings taken from the Core.java */
     private List<GameSettings> gameSettings;
     /** For selection moving sound */
-    private SoundEffect soundEffect;
 
     /**
      * Constructor, establishes the properties of the screen.
@@ -76,7 +74,6 @@ public class EnhanceScreen extends Screen {
         this.coin = gameState.getCoin();
         this.lives = gameState.getLivesRemaining();
 
-        soundEffect = new SoundEffect();
     }
 
     /**
@@ -101,30 +98,25 @@ public class EnhanceScreen extends Screen {
                 && this.inputDelay.checkFinished()) {
             if (inputManager.isKeyDown(KeyEvent.VK_UP)
                     || inputManager.isKeyDown(KeyEvent.VK_W)) {
-                soundEffect.playButtonClickSound();
                 previousVerticalMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_DOWN)
                     || inputManager.isKeyDown(KeyEvent.VK_S)) {
-                soundEffect.playButtonClickSound();
                 nextVerticalMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
                     || inputManager.isKeyDown(KeyEvent.VK_A)) {
-                soundEffect.playButtonClickSound();
                 previousHorizontalMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
                     || inputManager.isKeyDown(KeyEvent.VK_D)) {
-                soundEffect.playButtonClickSound();
                 nextHorizontalMenuItem();
                 this.selectionCooldown.reset();
             }
             if (inputManager.isKeyDown(KeyEvent.VK_SPACE)){
-                soundEffect.playSpaceButtonSound();
                 if (this.returnCode == 8) {
                     if (this.enhanceManager.getlvEnhanceArea() <= 2)
                         this.enhanceManager.enhanceAreaDamage();

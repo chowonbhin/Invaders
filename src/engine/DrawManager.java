@@ -1627,8 +1627,6 @@ public final class DrawManager {
 			if (isFirst){
 				drawLoading(screen.getHeight() / 6, screen.getHeight() / 3, screen);
 				if (initialSound) {
-					SoundEffect soundEffect = new SoundEffect();
-					soundEffect.initialStartSound();
 					initialSound = false;
 				}
 			}
@@ -1643,8 +1641,6 @@ public final class DrawManager {
 		} else {
 			drawGo(screen, "GO!", screen.getHeight() / 2 + fontBigMetrics.getHeight() / 3);
 			if (isAfterLoading && initialSound2) {
-				SoundEffect effect = new SoundEffect();
-				effect.startSound();
 				initialSound2 = false;
 			}
 			isFirst = false;
@@ -2593,6 +2589,7 @@ public final class DrawManager {
 	}
 	public void drawFriendMenu(final Screen screen, final int option){
 		String SelectString = "Select Mode with W + S, confirm with SPACE.";
+		String AddDeleteString = "Select Add or Delete, confirm with L";
 		String FriendListString = "F R I E N D L I S T";
 		String AddFriendString = "A D D F R I E N D";
 		String DeleteFriendString = "D E L E T E F R I E N D";
@@ -2600,6 +2597,8 @@ public final class DrawManager {
 
 		backBufferGraphics.setColor(blinkingColor("GRAY"));
 		drawCenteredRegularString(screen, SelectString, screen.getHeight() / 8);
+		backBufferGraphics.setColor(blinkingColor("GRAY"));
+		drawCenteredRegularString(screen, AddDeleteString, screen.getHeight() - fontRegularMetrics.getHeight());
 		if (option == 43)
 			backBufferGraphics.setColor(blinkingColor("GREEN"));
 		else

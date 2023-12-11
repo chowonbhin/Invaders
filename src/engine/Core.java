@@ -21,7 +21,6 @@ import screen.*;
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  */
 public final class Core {
-    private static BGM outgame_bgm;
     /**
      * Width of current screen.
      */
@@ -133,7 +132,6 @@ public final class Core {
     public static void main(final String[] args) {
         try {
 
-            outgame_bgm = new BGM();
 
             LOGGER.setUseParentHandlers(false);
 
@@ -186,7 +184,6 @@ public final class Core {
                     // Main menu.
                     currentScreen = new TitleScreen(width, height, FPS);
 
-                    outgame_bgm.OutGame_bgm_play(); //대기화면 비지엠 (수정중)
 
                     LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
                             + " title screen at " + FPS + " fps.");
@@ -236,8 +233,6 @@ public final class Core {
                     }
                     LOGGER.info("Closing Level screen.");
                     gameState.setLevel(stage);
-
-                    outgame_bgm.OutGame_bgm_stop(); //게임 대기 -> 시작으로 넘어가면서 outgame bgm 종료
 
                     // Game & score.
                     do {
@@ -321,11 +316,6 @@ public final class Core {
 
                     // Recovery | Default State & Exit
 
-                    currentScreen = new RecoveryScreen(width, height, FPS);
-                    LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-                            + " Recovery screen at " + FPS + " fps.");
-                    returnCode = frame.setScreen(currentScreen);
-                    LOGGER.info("Closing Recovery screen.");
 
 
 					if (returnCode == 30) { 
@@ -515,7 +505,6 @@ public final class Core {
                     }
                     currentScreen = new TitleScreen(width, height, FPS);
 
-                    outgame_bgm.OutGame_bgm_play(); //대기화면 비지엠 (수정중)
 
                     LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
                             + " title screen at " + FPS + " fps.");
@@ -538,7 +527,6 @@ public final class Core {
                     }
                     currentScreen = new TitleScreen(width, height, FPS);
 
-                    outgame_bgm.OutGame_bgm_play(); //대기화면 비지엠 (수정중)
 
                     LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
                             + " title screen at " + FPS + " fps.");

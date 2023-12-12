@@ -43,7 +43,12 @@ public class CountryScoreScreen extends Screen {
      */
     public CountryScoreScreen(final int width, final int height, final int fps, Connection conn, LoginManager loginManager) {
         super(width, height, 60);
-        Title = loginManager.get_country() + " Score";
+        if(null == loginManager.get_id()){
+            Title = null;
+        }
+        else{
+            Title = loginManager.get_country() + " Score";
+        }
         for(int difficulty = 1; difficulty < 5; difficulty++) {
             String sql = "SELECT  * FROM con_ranking(?, ?)";
             try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {

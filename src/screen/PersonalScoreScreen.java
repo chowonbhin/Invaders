@@ -44,20 +44,23 @@ public class PersonalScoreScreen extends Screen {
     public PersonalScoreScreen(final int width, final int height, final int fps, Connection conn, LoginManager loginManager) {
         super(width, height, 60);
 
-        Title = "ID : " + loginManager.get_id() + " Name : " + loginManager.get_name();
+        if(null == loginManager.get_id()){
+            Title = null;
+        }
+        else{
+            Title = "ID : " + loginManager.get_id() + " Name : " + loginManager.get_name();
+        }
+
         for(int difficulty = 1; difficulty < 5; difficulty++) {
-            String sql = "SELECT * FROM ranking(?) WHERE id = ?";
+            String sql = "SELECT * FROM score WHERE difficulty = ? and id = ? order by score DESC";
             try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setInt(1, difficulty);
                 preparedStatement.setString(2, loginManager.get_id());
                 ResultSet resultSet = preparedStatement.executeQuery();
                 List<String> stringList = new ArrayList<>();
                 while(resultSet.next()){
-                    int ranking = resultSet.getInt("ranking");
-                    String id = resultSet.getString("id");
-                    String clientName = resultSet.getString("client_name");
                     int score = resultSet.getInt("score");
-                    String resultString = "Ranking : " +ranking + ", Score : " + score;
+                    String resultString = "Score : " + score;
                     stringList.add(resultString);
                 }
                 if (difficulty - 1 == 0) {
